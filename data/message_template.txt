@@ -1,0 +1,6 @@
+Subject: PAMSD Wichteln
+
+Hi %s!
+Dein Wichtel ist %s.
+Frohe Weihnachten!
+Marina
