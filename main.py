@@ -103,9 +103,9 @@ def send(assignments: str, email: str, port, host):
                             headers=assignments[list(assignments.keys())[0]].keys()))
     print()
     password = getpass.getpass("Sending emails out to all participants.\nType your password and press enter: ")
-    context = ssl.create_default_context()
     template = open('data/message_template.txt', 'r').read()
     with smtplib.SMTP(host, port) as server:
+        server.starttls()
         server.login(email, password)
         print('Login successful.')
         with click.progressbar(label='Sending mails...', iterable=assignments.items()) as bar:
@@ -116,6 +116,7 @@ def send(assignments: str, email: str, port, host):
                     to_addrs=p['email'],
                     msg=msg
                 )
+        server.quit()
 
 
 if __name__ == '__main__':
