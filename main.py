@@ -53,14 +53,12 @@ def generate(participants, output_file):
     print(f'Found {n} solutions.')
     print(f'Writing to {output_file}.')
     sampled_solution = random.choice(solutions)
-    for i, name in enumerate(names):
-        contacts[name]['wichtel'] = names[sampled_solution[i]]
-
-    assignments = {}
     with open(output_file, 'w') as file:
         writer = csv.writer(file, delimiter=',')
-        for name, person in contacts.items():
-            writer.writerow([name, person['constraints'], person['email'], person['wichtel']])
+        for name, person in  contacts.items():
+            i = names.index(name)
+            wichtel_index = sampled_solution[i]
+            writer.writerow([name, person['constraints'], person['email'], names[wichtel_index]])
 
 
 @click.command()
@@ -111,11 +109,7 @@ def send(assignments: str, email: str, port, host):
         with click.progressbar(label='Sending mails...', iterable=assignments.items()) as bar:
             for name, p in bar:
                 msg = template % (name, p['wichtel'])
-                server.sendmail(
-                    from_addr=email,
-                    to_addrs=p['email'],
-                    msg=msg
-                )
+                server.sendmail(from_addr=email, to_addrs=p['email'], msg=msg)
         server.quit()
 
 
