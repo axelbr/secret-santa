@@ -1,0 +1,4 @@
+Hi %s!
+Your wichtel is %s.
+Best,
+Santa

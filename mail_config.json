@@ -1,0 +1,7 @@
+{
+  "subject": "",
+  "body_template": "./message.txt",
+  "sender": "",
+  "host": "",
+  "port": 587
+}
