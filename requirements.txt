@@ -3,3 +3,4 @@ cpmpy
 matplotlib
 click
 tabulate
+pyyaml

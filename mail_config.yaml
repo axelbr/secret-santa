@@ -1,0 +1,9 @@
+subject: "Secret Santa"
+body_template: |
+  Hi %s!
+  Your wichtel is %s.
+  Best,
+  Santa
+sender: ""
+host: ""
+port: 587
