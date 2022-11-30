@@ -4,6 +4,7 @@ body_template: |
   Your wichtel is %s.
   Best,
   Santa
-sender: ""
-host: ""
-port: 587
+sender: "santa@localhost"
+host: "localhost"
+port: 1025
+use_tls: false

@@ -13,8 +13,8 @@ def make() -> click.Command:
 
 @click.command()
 @click.argument('participants', type=str)
-@click.option('--output-file', type=str)
-@click.option('--password', type=str, default=None)
+@click.option('--output-file', type=str, help='Output file for assignments')
+@click.option('--password', type=str, default=None, help='Password to encrypt the assignments')
 def generate(participants, output_file, password):
     contacts = read_participants(participants)
     model = cp.Model()

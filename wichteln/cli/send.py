@@ -36,8 +36,9 @@ def send_email(email: email.message.Message, server: smtplib.SMTP):
 def send_emails(emails: dict[str, email.message.EmailMessage], password: str, mail_config: dict, dry_run=False):
     sender, host, port = mail_config['sender'], mail_config['host'], mail_config['port']
     try:
-        server = smtplib.SMTP(host, port)
-        server.starttls()
+        server = smtplib.SMTP(host, int(port))
+        if mail_config['use_tls']:
+            server.starttls()
         server.login(sender, password)
     except smtplib.SMTPException as e:
         print(f'Error: {e}')
@@ -65,10 +66,10 @@ def display_emails(messages: dict[str, EmailMessage]):
 
 @click.command()
 @click.argument('assignments', type=click.Path(exists=True))
-@click.option('--mail-config', type=str)
-@click.option('--participants', type=str, default='')
-@click.option('--dry-run', type=bool, is_flag=True)
-@click.option('--password', type=str, default=None)
+@click.option('--mail-config', type=str, required=True, help='Path to mail config file')
+@click.option('--participants', type=str, default='', help='Specify participants to send mails to.')
+@click.option('--dry-run', type=bool, is_flag=True, help='Do not send emails')
+@click.option('--password', type=str, default=None, help='Password to decrypt the assignments file')
 def send(assignments: str, mail_config: str, participants: str, dry_run: bool, password):
     assignments_file = assignments
     assignments = read_participants(assignments)
@@ -82,8 +83,6 @@ def send(assignments: str, mail_config: str, participants: str, dry_run: bool, p
         print(e)
         return
 
-    print("Sending emails out to participants:\n")
-
     if participants != '':
         participants = participants.split(',')
         assignments_to_send = dict((k, v) for k, v in assignments.items() if k in participants)
@@ -92,7 +91,8 @@ def send(assignments: str, mail_config: str, participants: str, dry_run: bool, p
 
     if len(assignments_to_send) == 0:
         print('Nothing to do. Bye.')
-
+        return
+    print("Sending emails out to participants:\n")
     print_table(assignments_to_send, show_names=False)
     emails = compose_emails(assignments_to_send, mail_config=mail_config)
 
