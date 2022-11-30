@@ -13,7 +13,7 @@ def visualize(assignments: str, show_names: bool, password: str):
     G = nx.DiGraph()
     assignments = read_participants(assignments)
     if password:
-        assignments = decrypt_assignments(assignments, password)
+        assignments = decrypt_assignments(assignments, password) or dict()
     for name, p in assignments.items():
         G.add_edge(name, p['wichtel'])
     nx.draw(G, with_labels=show_names)

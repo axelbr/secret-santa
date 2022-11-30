@@ -1,6 +1,5 @@
 import csv
 import random
-from cryptography.fernet import Fernet
 
 import click as click
 import cpmpy as cp

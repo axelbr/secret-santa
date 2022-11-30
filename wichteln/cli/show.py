@@ -10,7 +10,8 @@ def show(assignments: str, show_names: bool, password):
     assignments = read_participants(assignments)
     if password:
         assignments = decrypt_assignments(assignments, password)
-    print_table(assignments, show_names)
+    if assignments:
+        print_table(assignments, show_names)
 
 def make():
     return show

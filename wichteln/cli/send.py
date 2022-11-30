@@ -73,7 +73,7 @@ def send(assignments: str, mail_config: str, participants: str, dry_run: bool, p
     assignments_file = assignments
     assignments = read_participants(assignments)
     if password:
-        assignments = decrypt_assignments(assignments, password)
+        assignments = decrypt_assignments(assignments, password) or dict()
     try:
         check_assignment(assignments)
         with open(mail_config, 'r') as file:

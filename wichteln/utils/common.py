@@ -2,11 +2,16 @@ import base64
 import csv
 import typing
 
+from Crypto.Cipher import AES
 import tabulate
-from cryptography.fernet import Fernet
 from hashlib import scrypt
 from os import urandom
 from base64 import urlsafe_b64encode
+import zlib
+
+from cryptography.fernet import InvalidToken
+
+from wichteln.utils.encryption import encrypt_message, decrypt_message
 
 
 def print_table(assignments: dict, show_names: bool):
@@ -51,19 +56,23 @@ def check_assignment(assignments: dict):
         if p['wichtel'] in constraints:
             raise ValueError(f'Assignment of {name} to {p["wichtel"]} violates constraints.')
 
-def decrypt_assignments(assignments: dict, password: str) -> dict:
-    assignments = assignments.copy()
-    for k, v in assignments.items():
-        v['wichtel'] = decrypt(v['wichtel'], password)
-    return assignments
+def decrypt_assignments(assignments: dict, password: str) -> typing.Optional[dict]:
+    try:
+        assignments = assignments.copy()
+        for k, v in assignments.items():
+            v['wichtel'] = decrypt(v['wichtel'], password)
+        return assignments
+    except Exception as e:
+        print('Wrong password.')
+        return None
 
-def encrypt(string, password):
-    """
-    Encrypts a message
-    """
-    return string
-def decrypt(string, password):
-    """
-    Encrypts a message
-    """
-    return string
+def encrypt(message: str, password: str) -> str:
+    enc = str(encrypt_message(message.encode(), password=password).decode())
+    return enc
+
+def decrypt(message: str, password: str) -> str:
+    try:
+        dec = decrypt_message(message.encode(), password=password).decode()
+        return str(dec)
+    except InvalidToken:
+        raise ValueError('Wrong password.')
