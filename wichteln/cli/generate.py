@@ -1,4 +1,3 @@
-import csv
 import random
 
 import click as click
@@ -41,7 +40,3 @@ def generate(participants, output_file, password):
         person['wichtel'] = wichtel
         person['delivered'] = False
     write_assignments_to_file(contacts, path=output_file)
-
-
-
-

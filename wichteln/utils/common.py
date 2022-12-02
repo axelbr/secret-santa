@@ -1,14 +1,7 @@
-import base64
 import csv
 import typing
 
-from Crypto.Cipher import AES
 import tabulate
-from hashlib import scrypt
-from os import urandom
-from base64 import urlsafe_b64encode
-import zlib
-
 from cryptography.fernet import InvalidToken
 
 from wichteln.utils.encryption import encrypt_message, decrypt_message
@@ -23,6 +16,7 @@ def print_table(assignments: dict, show_names: bool):
         headers=headers
     )
     print(table)
+
 
 def read_participants(path: str) -> typing.Dict[str, dict]:
     participants = {}
@@ -40,6 +34,7 @@ def read_participants(path: str) -> typing.Dict[str, dict]:
                 participants[row[0]]['delivered'] = row[4]
         return participants
 
+
 def write_assignments_to_file(assignments: dict[str, dict], path: str):
     with open(path, 'w') as file:
         writer = csv.writer(file, delimiter=',')
@@ -48,6 +43,7 @@ def write_assignments_to_file(assignments: dict[str, dict], path: str):
             person = assignments[name]
             writer.writerow([name, person['constraints'], person['email'], person['wichtel'], person['delivered']])
 
+
 def check_assignment(assignments: dict):
     for name, p in assignments.items():
         if 'wichtel' not in p.keys():
@@ -55,6 +51,7 @@ def check_assignment(assignments: dict):
         constraints = set(p['constraints'].split(';'))
         if p['wichtel'] in constraints:
             raise ValueError(f'Assignment of {name} to {p["wichtel"]} violates constraints.')
+
 
 def decrypt_assignments(assignments: dict, password: str) -> typing.Optional[dict]:
     try:
@@ -66,9 +63,11 @@ def decrypt_assignments(assignments: dict, password: str) -> typing.Optional[dic
         print('Wrong password.')
         return None
 
+
 def encrypt(message: str, password: str) -> str:
     enc = str(encrypt_message(message.encode(), password=password).decode())
     return enc
+
 
 def decrypt(message: str, password: str) -> str:
     try:

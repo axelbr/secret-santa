@@ -2,8 +2,9 @@ import email.message
 import getpass
 import smtplib
 from email.message import EmailMessage
-import yaml
+
 import click
+import yaml
 
 from wichteln.utils import read_participants, check_assignment, print_table, write_assignments_to_file, \
     decrypt_assignments
@@ -13,7 +14,6 @@ def compose_emails(participants: dict, mail_config: dict):
     names = sorted(list(participants.keys()))
     emails = {}
     for name in names:
-        i = names.index(name)
         p = participants[name]
         msg = EmailMessage()
         template = mail_config['body_template']
@@ -23,6 +23,7 @@ def compose_emails(participants: dict, mail_config: dict):
         msg['To'] = p['email']
         emails[name] = msg
     return emails
+
 
 def send_email(email: email.message.Message, server: smtplib.SMTP):
     try:
@@ -44,7 +45,6 @@ def send_emails(emails: dict[str, email.message.EmailMessage], password: str, ma
         print(f'Error: {e}')
         return []
 
-
     completed = list()
     names = sorted(list(emails.keys()))
     for i, name in enumerate(names):
@@ -63,6 +63,7 @@ def display_emails(messages: dict[str, EmailMessage]):
     for name, message in messages.items():
         print(message.as_string())
         print('----------------------------------')
+
 
 @click.command()
 @click.argument('assignments', type=click.Path(exists=True))
@@ -95,7 +96,6 @@ def send(assignments: str, mail_config: str, participants: str, dry_run: bool, p
     print("Sending emails out to participants:\n")
     print_table(assignments_to_send, show_names=False)
     emails = compose_emails(assignments_to_send, mail_config=mail_config)
-
 
     password = getpass.getpass("\nType your password and press enter: ")
     try_send = True
