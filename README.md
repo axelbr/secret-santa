@@ -93,6 +93,7 @@ port: 25
 use_tls: true
 ```
 The command to send out mails is:
+
 `wichteln send --mail-config <path> [--password <pw>] [--dry-run] <assignments.csv>`
 
 If you have encrypted the assignments, you need to provide the correct password, otherwise your participants
