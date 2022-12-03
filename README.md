@@ -68,7 +68,7 @@ If the assignment file is encrypted, you have to specify the correct password.
 
 ### Sending Assignments
 
-> :warning: Sending mails from a python script is not well supported. Some mail providers (e.g. GMail) do not support this.
+> :warning: Sending mails from a python script is not supported by many email providers (e.g. gmail)
 
 To send a mail with the assigned name to each of the participants, you can call use `send` command.
 In order to send emails from this application, you need to provide a mail configuration file (in YAML format) which contains the
