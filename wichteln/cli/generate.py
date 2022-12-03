@@ -10,9 +10,9 @@ def make() -> click.Command:
     return generate
 
 
-@click.command()
+@click.command(help='Generate secret santa assignments.')
 @click.argument('participants', type=str)
-@click.option('--output-file', type=str, help='Output file for assignments')
+@click.option('--output-file', type=str, required=True, help='Output file for assignments')
 @click.option('--password', type=str, default=None, help='Password to encrypt the assignments')
 def generate(participants, output_file, password):
     contacts = read_participants(participants)

@@ -65,7 +65,7 @@ def display_emails(messages: dict[str, EmailMessage]):
         print('----------------------------------')
 
 
-@click.command()
+@click.command(help='Send secret santa assignments to participants.')
 @click.argument('assignments', type=click.Path(exists=True))
 @click.option('--mail-config', type=str, required=True, help='Path to mail config file')
 @click.option('--participants', type=str, default='', help='Specify participants to send mails to.')

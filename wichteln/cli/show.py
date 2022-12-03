@@ -3,7 +3,7 @@ import click
 from wichteln.utils import read_participants, print_table, decrypt_assignments
 
 
-@click.command()
+@click.command(help='Print a tabular representation of the assignments.')
 @click.argument('assignments', type=click.Path(exists=True))
 @click.option('--show-names', is_flag=True, show_default=False, default=False,
               help='Show the names of the participants.')

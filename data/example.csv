@@ -1,4 +1,4 @@
-Axel,Marina,axel@loalhost
-Marina,Axel,marina@localhost
-Marlies,Max,marlies@localhost
-Max,Marlies,max@localhost
+Axel,Bob;Alice,axel@hostname.com
+Bob,,bob@hostname.com
+Alice,Bob,alice@hostname.com
+Tom,Alice,tom@hostname.com
